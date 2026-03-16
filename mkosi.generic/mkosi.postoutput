@@ -6,10 +6,12 @@ IMAGE="${IMAGE_ID}-${IMAGE_VERSION}.${ARCHITECTURE}"
 
 echo "mkosi.postoutput ${IMAGE}" "$@"
 
-# Create qcow2 images
+# Create qcow2 images, we need the uncompressed image
+xz --keep -d "${OUTPUTDIR}/${IMAGE}.raw.xz"
 qemu-img convert -f raw -O qcow2 "${OUTPUTDIR}/${IMAGE}.raw" "${OUTPUTDIR}/${IMAGE}.qcow2"
 qemu-img resize "${OUTPUTDIR}/${IMAGE}.qcow2" 40G
 qemu-img info "${OUTPUTDIR}/${IMAGE}.qcow2"
+rm "${OUTPUTDIR}/${IMAGE}.raw"
 
 # we don't need the image symlink without extension
 rm -v "${OUTPUTDIR}/${IMAGE}"
