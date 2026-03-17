@@ -1,5 +1,7 @@
 #! /usr/bin/bash
 
+set -e
+
 #
 # Setup configs and services
 #
